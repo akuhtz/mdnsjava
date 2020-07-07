@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>net.posick</groupId>
+        <groupId>org.bidib.net.posick</groupId>
         <artifactId>mdnsjava-full</artifactId>
-        <version>2.2.0</version>
+        <version>${revision}</version>
     </parent>
 
     <packaging>jar</packaging>
@@ -17,40 +17,40 @@
 		<dependency>
 		    <groupId>dnsjava</groupId>
 		    <artifactId>dnsjava</artifactId>
-		    <version>2.1.7</version>
 		</dependency>
         <dependency>
-            <groupId>net.posick</groupId>
+            <groupId>org.bidib.net.posick</groupId>
             <artifactId>mdnsjava</artifactId>
-            <version>${version}</version>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>copy-dependencies</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin -->
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
+			<plugin>
+				<!-- generate the osgi manifest -->
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+				  <!-- see http://felix.apache.org/documentation/subprojects/apache-felix-maven-bundle-plugin-bnd.html -->
+				  <instructions>
+					<!-- no 'uses' osgi directive -->
+					<_nouses>true</_nouses>
+					<_snapshot>${osgi-version-qualifier}</_snapshot>
+					<Bundle-SymbolicName>${bundle-symbolicname}</Bundle-SymbolicName>
+				  </instructions>
+				</configuration>
+				<executions>
+				  <execution>
+					<id>bundle-manifest</id>
+					<goals>
+					  <goal>bundle</goal>
+					</goals>
+				  </execution>
+				</executions>
+			</plugin>
+		
+			<!--
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -68,9 +68,8 @@
                                 <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                                 <Bundle-Name>${project.name}</Bundle-Name>
                                 <Bundle-Version>${project.version}</Bundle-Version>
-                                <!-- Bundle-Activator>net.posick.mdns.Activator</Bundle-Activator -->
-                                <Import-Package>org.xbill.DNS;version="[2.1,3)",org.xbill.DNS.utils;version="[2.1,3)",net.posick.mDNS;version="[2.1,3)"</Import-Package>
-                                <Export-Package>net.posick.mDNS.spi;version="2.2.0";uses:="org.xbill.DNS,net.posick.mDNS"net.posick.mDNS.spi.services;version="2.2.0";uses:="org.xbill.DNS,net.posick.mDNS"</Export-Package>
+                                <Import-Package>org.xbill.DNS;version="[3,4)",org.xbill.DNS.utils;version="[3,4)",net.posick.mDNS;version="[3,4)"</Import-Package>
+                                <Export-Package>net.posick.mDNS.spi;version="2.2.1";uses:="org.xbill.DNS,net.posick.mDNS"net.posick.mDNS.spi.services;version="2.2.1";uses:="org.xbill.DNS,net.posick.mDNS"</Export-Package>
                             </instructions>
                             <supportedProjectTypes>
                                 <supportedProjectType>jar</supportedProjectType>
@@ -80,7 +79,8 @@
                     </execution>
                 </executions>
             </plugin>
-
+			-->
+			<!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -99,20 +99,11 @@
 					</execution>
 				</executions>
 			</plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <version>2.5.1</version>
-                <goals>
-                    <goal>install</goal>
-                </goals>
-            </plugin>
+			-->
         </plugins>
     </build>
 
     <properties>
         <manifestFolder>src/main/resources/META-INF</manifestFolder>
-    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>
